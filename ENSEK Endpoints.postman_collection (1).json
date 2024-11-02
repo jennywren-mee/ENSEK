@@ -1,0 +1,787 @@
+{
+	"info": {
+		"_postman_id": "b0180acb-d482-4327-bba4-3b272c55d0f3",
+		"name": "ENSEK Endpoints",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "39441073"
+	},
+	"item": [
+		{
+			"name": "Login - Invalid Username",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"if (jsonData.access_token) {\r",
+							"    pm.collectionVariables.set(\"bearerToken\", jsonData.access_token);\r",
+							"    console.log(\"Bearer Token set: \" + jsonData.access_token);\r",
+							"} else {\r",
+							"    console.log(\"Access token not found in the response.\");\r",
+							"}\r",
+							"\r",
+							"pm.test(\"Login is unsuccessful\", function() {\r",
+							"    pm.expect(jsonData.message).to.eql(\"Unauthorized\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Request status is 401\"), function() {\r",
+							"    pm.response.to.have.status(401);\r",
+							"};\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"//Set array\r",
+							"var invalidUsername = [\r",
+							"    'jennifer.rose',\r",
+							"    '',\r",
+							"    null,\r",
+							"    '          '\r",
+							"    ]\r",
+							"\r",
+							"    pm.collectionVariables.set(\"invalidUsername\", invalidUsername [Math.floor(Math.random() * invalidUsername.length)]);\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"{{invalidUsername}}\",\r\n  \"password\": \"testing\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://qacandidatetest.ensek.io/ENSEK/login",
+					"protocol": "https",
+					"host": [
+						"qacandidatetest",
+						"ensek",
+						"io"
+					],
+					"path": [
+						"ENSEK",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login - Invalid Password",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"if (jsonData.access_token) {\r",
+							"    pm.collectionVariables.set(\"bearerToken\", jsonData.access_token);\r",
+							"    console.log(\"Bearer Token set: \" + jsonData.access_token);\r",
+							"} else {\r",
+							"    console.log(\"Access token not found in the response.\");\r",
+							"};\r",
+							"\r",
+							"pm.test(\"Login is unsuccessful\", function() {\r",
+							"    pm.expect(jsonData.message).to.eql(\"Unauthorized\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Request status is 401\"), function() {\r",
+							"    pm.response.to.have.status(401);\r",
+							"};\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"//Set array\r",
+							"var invalidPassword = [\r",
+							"    'password',\r",
+							"    '',\r",
+							"    null,\r",
+							"    '          '\r",
+							"    ]\r",
+							"\r",
+							"    pm.collectionVariables.set(\"invalidPassword\", invalidPassword [Math.floor(Math.random() * invalidPassword.length)]);\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"test\",\r\n  \"password\": \"{{invalidPassword}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://qacandidatetest.ensek.io/ENSEK/login",
+					"protocol": "https",
+					"host": [
+						"qacandidatetest",
+						"ensek",
+						"io"
+					],
+					"path": [
+						"ENSEK",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login - Success",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"if (jsonData.access_token) {\r",
+							"    pm.collectionVariables.set(\"bearerToken\", jsonData.access_token);\r",
+							"    console.log(\"Bearer Token set: \" + jsonData.access_token);\r",
+							"} else {\r",
+							"    console.log(\"Access token not found in the response.\");\r",
+							"};\r",
+							"\r",
+							"pm.test(\"Login is Successful\", function() {\r",
+							"    pm.expect(jsonData.message).to.eql(\"Success\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Request status is 200\"), function() {\r",
+							"    pm.response.to.have.status(200);\r",
+							"};\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"test\",\r\n  \"password\": \"testing\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://qacandidatetest.ensek.io/ENSEK/login",
+					"protocol": "https",
+					"host": [
+						"qacandidatetest",
+						"ensek",
+						"io"
+					],
+					"path": [
+						"ENSEK",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Reset Orders",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Data is reset\"), function() {\r",
+							"    pm.expect(jsonData.message).to.eql(\"Success\");\r",
+							"};"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{bearerToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "https://qacandidatetest.ensek.io/ENSEK/reset",
+					"protocol": "https",
+					"host": [
+						"qacandidatetest",
+						"ensek",
+						"io"
+					],
+					"path": [
+						"ENSEK",
+						"reset"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Energy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"pm.collectionVariables.set(\"Electricity Units\", jsonData.electric.quantity_of_units);\r",
+							"pm.collectionVariables.set(\"electricityPrice\", jsonData.electric.price_per_unit);\r",
+							"pm.collectionVariables.set(\"Gas Units\", jsonData.gas.quantity_of_units);\r",
+							"pm.collectionVariables.set(\"gasPrice\", jsonData.gas.price_per_unit);\r",
+							"pm.collectionVariables.set(\"Nuclear Units\", jsonData.nuclear.quantity_of_units);\r",
+							"pm.collectionVariables.set(\"nuclearPrice\", jsonData.nuclear.price_per_unit);\r",
+							"pm.collectionVariables.set(\"Oil Units\", jsonData.oil.quantity_of_units);    \r",
+							"pm.collectionVariables.set(\"oilPrice\", jsonData.oil.price_per_unit);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://qacandidatetest.ensek.io/ENSEK/energy",
+					"protocol": "https",
+					"host": [
+						"qacandidatetest",
+						"ensek",
+						"io"
+					],
+					"path": [
+						"ENSEK",
+						"energy"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Buy Energy - Electric",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.set(\"energyId\", 3)\r",
+							"\r",
+							"pm.collectionVariables.set(\"electricQuantity\", Math.floor(Math.random() * 1000));"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Request status is 200\", function() {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"let messageString = jsonData.message;\r",
+							"\r",
+							"if (messageString.includes(\"Your order id is\")) {\r",
+							"    let orderId = messageString.split(\"Your order id is \")[0].trim();\r",
+							"    pm.collectionVariables.set(\"orderId\", orderId);\r",
+							"}\r",
+							"\r",
+							"console.log(pm.collectionVariables.get(\"electricQuantity\"));\r",
+							"console.log(pm.collectionVariables.get(\"electricityPrice\"));\r",
+							"console.log(pm.collectionVariables.get(\"orderId\"));\r",
+							"console.log(messageString);\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://qacandidatetest.ensek.io/ENSEK/buy/{{energyId}}/{{electricQuantity}}",
+					"protocol": "https",
+					"host": [
+						"qacandidatetest",
+						"ensek",
+						"io"
+					],
+					"path": [
+						"ENSEK",
+						"buy",
+						"{{energyId}}",
+						"{{electricQuantity}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Buy Energy - Gas",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.set(\"energyId\", 1);\r",
+							"\r",
+							"pm.collectionVariables.set(\"gasQuantity\", Math.floor(Math.random() * 1000));"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Request status is 200\"), function() {\r",
+							"    pm.response.to.have.status(200);\r",
+							"};\r",
+							"\r",
+							"console.log(pm.collectionVariables.get(\"gasQuantity\"));\r",
+							"console.log(pm.collectionVariables.get(\"gasPrice\"));"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://qacandidatetest.ensek.io/ENSEK/buy/{{energyId}}/{{gasQuantity}}",
+					"protocol": "https",
+					"host": [
+						"qacandidatetest",
+						"ensek",
+						"io"
+					],
+					"path": [
+						"ENSEK",
+						"buy",
+						"{{energyId}}",
+						"{{gasQuantity}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Buy Energy - Nuclear",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.set(\"energyId\", 2)\r",
+							"\r",
+							"pm.collectionVariables.set(\"nuclearQuantity\", Math.floor(Math.random() * 1000));"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Request status is 200\"), function() {\r",
+							"    pm.response.to.have.status(200);\r",
+							"};\r",
+							"\r",
+							"console.log(pm.collectionVariables.get(\"nuclearQuantity\"));\r",
+							"console.log(pm.collectionVariables.get(\"nuclearPrice\"));"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://qacandidatetest.ensek.io/ENSEK/buy/{{energyId}}/{{nuclearQuantity}}",
+					"protocol": "https",
+					"host": [
+						"qacandidatetest",
+						"ensek",
+						"io"
+					],
+					"path": [
+						"ENSEK",
+						"buy",
+						"{{energyId}}",
+						"{{nuclearQuantity}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Buy Energy - Oil",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.set(\"energyId\", 4)\r",
+							"\r",
+							"pm.collectionVariables.set(\"oilQuantity\", Math.floor(Math.random() * 1000));"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Request status is 200\"), function() {\r",
+							"    pm.response.to.have.status(200);\r",
+							"};\r",
+							"\r",
+							"console.log(pm.collectionVariables.get(\"oilQuantity\"));\r",
+							"console.log(pm.collectionVariables.get(\"oilPrice\"));"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://qacandidatetest.ensek.io/ENSEK/buy/{{energyId}}/{{oilQuantity}}",
+					"protocol": "https",
+					"host": [
+						"qacandidatetest",
+						"ensek",
+						"io"
+					],
+					"path": [
+						"ENSEK",
+						"buy",
+						"{{energyId}}",
+						"{{oilQuantity}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Orders ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Step 1: Parse the JSON response\r",
+							"let orders = pm.response.json();\r",
+							"\r",
+							"// Step 2: Get today's date (reset the time portion to midnight)\r",
+							"let today = new Date();\r",
+							"today.setHours(0, 0, 0, 0);\r",
+							"\r",
+							"// Step 3: Filter the orders and count those before today\r",
+							"let ordersBeforeToday = orders.filter(order => {\r",
+							"    let orderDate = new Date(order.time);\r",
+							"    return orderDate < today;\r",
+							"});\r",
+							"\r",
+							"// Get the count of orders before today\r",
+							"let countBeforeToday = ordersBeforeToday.length;\r",
+							"\r",
+							"// Set the count in the environment variable\r",
+							"pm.environment.set(\"countBeforeToday\", countBeforeToday);\r",
+							"\r",
+							"console.log(pm.environment.get(\"countBeforeToday\"));\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://qacandidatetest.ensek.io/ENSEK/orders",
+					"protocol": "https",
+					"host": [
+						"qacandidatetest",
+						"ensek",
+						"io"
+					],
+					"path": [
+						"ENSEK",
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Order",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://qacandidatetest.ensek.io/ENSEK/orders/{orderId}",
+					"protocol": "https",
+					"host": [
+						"qacandidatetest",
+						"ensek",
+						"io"
+					],
+					"path": [
+						"ENSEK",
+						"orders",
+						"{orderId}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Put Order",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": \"\",\r\n  \"quantity\": 0,\r\n  \"energy_id\": 0\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://qacandidatetest.ensek.io/ENSEK/orders/73b9152d-0438-43b0-8f94-308e2fe66c31",
+					"protocol": "https",
+					"host": [
+						"qacandidatetest",
+						"ensek",
+						"io"
+					],
+					"path": [
+						"ENSEK",
+						"orders",
+						"73b9152d-0438-43b0-8f94-308e2fe66c31"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Single Order",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://qacandidatetest.ensek.io/ENSEK/orders/cf661963-9ed4-43f7-9781-5a62598104de",
+					"protocol": "https",
+					"host": [
+						"qacandidatetest",
+						"ensek",
+						"io"
+					],
+					"path": [
+						"ENSEK",
+						"orders",
+						"cf661963-9ed4-43f7-9781-5a62598104de"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "bearerToken",
+			"value": ""
+		},
+		{
+			"key": "invalidUsername",
+			"value": ""
+		},
+		{
+			"key": "invalidPassword",
+			"value": ""
+		},
+		{
+			"key": "Electricity Units",
+			"value": ""
+		},
+		{
+			"key": "Gas Units",
+			"value": ""
+		},
+		{
+			"key": "Nuclear Units",
+			"value": ""
+		},
+		{
+			"key": "Oil Units",
+			"value": ""
+		},
+		{
+			"key": "energyId",
+			"value": ""
+		},
+		{
+			"key": "energyQuantity",
+			"value": ""
+		},
+		{
+			"key": "Electricity Price",
+			"value": ""
+		},
+		{
+			"key": "Gas Price",
+			"value": ""
+		},
+		{
+			"key": "Nuclear Price",
+			"value": ""
+		},
+		{
+			"key": "Oil Price",
+			"value": ""
+		},
+		{
+			"key": "electricQuantity",
+			"value": ""
+		},
+		{
+			"key": "electricityPrice",
+			"value": ""
+		},
+		{
+			"key": "gasPrice",
+			"value": ""
+		},
+		{
+			"key": "nuclearPrice",
+			"value": ""
+		},
+		{
+			"key": "oilPrice",
+			"value": ""
+		},
+		{
+			"key": "gasQuantity",
+			"value": ""
+		},
+		{
+			"key": "nuclearQuantity",
+			"value": ""
+		},
+		{
+			"key": "oilQuantity",
+			"value": ""
+		}
+	]
+}
